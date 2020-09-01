@@ -9,7 +9,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Track\\": "src/"
+            "Tracksale\\": "src/"
         }
     },
     "require-dev": {
