@@ -15,6 +15,15 @@ class DispatchCampaign
     const TRACKSALE_SUCESS = 200;
 
     /**
+     * Tracksale constructor.
+     * @param string $token
+     */
+    public function __construct(string $token)
+    {
+        $this->token = $token;
+    }
+
+    /**
      * @param string $campaign_id
      * @return ResponseInterface
      * @throws IncorrectTypeException
@@ -24,14 +33,16 @@ class DispatchCampaign
     public function sendDispatchRequest(string $campaign_id, string $user_name, string $user_email): ResponseInterface
     {
         $url = $this->getDispatchUrl($campaign_id);
-        $data = $this->getDispatchUrl($user_name, $user_email);
-        //token no env
-        $client = new Client(['headers' => ['Authorization' => 'Bearer d91eb3a1333aba593e310f2100fa801c', 'Content-Type' => 'application/json']]);
-        $response = $client->request('POST', $url, ['body' => $data]);
+        $data = $this->getJsonToSend($user_name, $user_email);
 
+        $client = new Client(['headers' => ['Authorization' => 'Bearer '.$this->token, 'Content-Type' => 'application/json']]);
+        $response = $client->request('POST', $url, ['body' => $data]);
+        
         if ($response->getStatusCode() != static::TRACKSALE_SUCESS) {
             throw new \Exception('error to send to tracksale');
         }
+
+        return $response; 
     }
 
     /**
