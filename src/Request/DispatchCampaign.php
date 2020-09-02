@@ -7,12 +7,17 @@ use Psr\Http\Message\ResponseInterface;
 use Tracksale\Configuration\Routes;
 use Tracksale\Exception\IncorrectTypeException;
 use Tracksale\Exception\InvalidRouteException;
+use Tracksale\Exception\RequestFailed;
 use Tracksale\Helpers\BuildUrl;
 use ReflectionException;
 
 class DispatchCampaign
 {
+    /** @var int */
     const TRACKSALE_SUCESS = 200;
+
+    /** @var string  */
+    protected $token;
 
     /**
      * Tracksale constructor.
@@ -24,7 +29,11 @@ class DispatchCampaign
     }
 
     /**
+     * Prepare to send request, formating data and send to DispatchRequest from tracksale
+     * 
      * @param string $campaign_id
+     * @param string $user_name
+     * @param string $user_email
      * @return ResponseInterface
      * @throws IncorrectTypeException
      * @throws InvalidRouteException
@@ -35,17 +44,19 @@ class DispatchCampaign
         $url = $this->getDispatchUrl($campaign_id);
         $data = $this->getJsonToSend($user_name, $user_email);
 
-        $client = new Client(['headers' => ['Authorization' => 'Bearer '.$this->token, 'Content-Type' => 'application/json']]);
+        $client = $this->getGuzzleInstance();
         $response = $client->request('POST', $url, ['body' => $data]);
         
         if ($response->getStatusCode() != static::TRACKSALE_SUCESS) {
-            throw new \Exception('Error to send campaign in Tracksale: ' . $response->getBody());
+            throw new RequestFailed('Error to send campaign in Tracksale', $response->getStatusCode(), $response->getBody());
         }
 
         return true; 
     }
 
     /**
+     * Verify if email is valid before send 
+     * 
      * @param string $email
      * @throws IncorrectTypeException
      */
@@ -57,6 +68,8 @@ class DispatchCampaign
     }
 
     /**
+     * Generate complete url to send in request
+     * 
      * @param string $campaign_id
      * @return string
      * @throws IncorrectTypeException
@@ -65,20 +78,25 @@ class DispatchCampaign
      */
     protected function getDispatchUrl(string $campaign_id): string
     {
-        return BuildUrl::getUrlByRoute(Routes::DISPATCH) . '/' . $campaign_id . '/dispatch';
+        return BuildUrl::getUrlByRoute(Routes::NAME['DISPATCH']) . '/' . $campaign_id . '/dispatch';
     }
-
+    
+    
     /**
      * Return instance of Guzzle
+     * 
      * @return Client
      */
     protected function getGuzzleInstance(): Client
     {
-        return new Client();
+        return new Client(['headers' => ['Authorization' => 'Bearer '.$this->token, 'Content-Type' => 'application/json']]);
     }
 
     /**
      * Prepare array to be send to Tracksale
+     * 
+     * @param string $user_name
+     * @param string $user_email
      * @return string
      */
     protected function getJsonToSend(string $user_name, string $user_email): string

@@ -4,5 +4,5 @@ namespace Tracksale\Configuration;
 
 class Routes
 {
-    const DISPATCH = 'campaign/';
+    const NAME = ['DISPATCH' => 'campaign/'];
 }

@@ -5,12 +5,12 @@ namespace Tracksale\Helpers;
 use Tracksale\Configuration\Http;
 use Tracksale\Configuration\Routes;
 use Tracksale\Exception\InvalidRouteException;
-use ReflectionException;
-use ReflectionClass;
 
 class BuildUrl
 {
     /**
+     * Build the complete url with base url and desired route
+     * 
      * @param string $route
      * @return string
      * @throws InvalidRouteException
@@ -21,10 +21,11 @@ class BuildUrl
         if (! static::routeExists($route)) {
             throw new InvalidRouteException("Invalid route: " . $route);
         }
-        return sprintf("%s/%s", trim(Http::BASE_URL, "/"), trim($route, "/"));
+        return sprintf("%s/%s", trim(Http::URLS['BASE_URL'], "/"), trim($route, "/"));
     }
 
     /**
+     * Verify if route exists in routes file
      * @param string $route
      * @return bool
      * @throws ReflectionException
@@ -32,7 +33,7 @@ class BuildUrl
      */
     private static function routeExists(string $route): bool
     {
-        $reflection = new ReflectionClass(Routes::class);
+        $reflection = new \ReflectionClass(Routes::class);
         foreach ($reflection->getConstants() as $constant) {
             if ($route == $constant) {
                 return true;

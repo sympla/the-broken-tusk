@@ -2,17 +2,23 @@
 
 namespace Tracksale\Exception;
 
-use Exception;
 use Psr\Http\Message\ResponseInterface;
 
-class RequestFailed extends Exception
+class RequestFailed extends \Exception
 {
-    /** @var int $statusCode */
+    /** @var int */
     protected $statusCode;
 
-    /** @var ResponseInterface $response */
+    /** @var ResponseInterface */
     protected $response;
 
+    /**
+     * RequestFailed constructor.
+     *
+     * @param string|null    $message
+     * @param int            $statusCode
+     * @param ResponseInterface $response
+     */
     public function __construct($message, $statusCode, ResponseInterface $response)
     {
         $this->statusCode = $statusCode;

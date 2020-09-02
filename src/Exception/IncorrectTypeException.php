@@ -1,6 +1,6 @@
 <?php
 
-namespace RDStation\Exception;
+namespace Tracksale\Exception;
 
 class IncorrectTypeException extends \Exception
 {

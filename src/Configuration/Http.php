@@ -1,8 +1,8 @@
 <?php
 
-namespace Tracksale\Configuration;
+namespace Track\Configuration;
 
 class Http
 {
-    const BASE_URL = 'https://api.tracksale.co/v2/';
+    const URLS = ['BASE_URL' => 'https://api.tracksale.co/v2/'];
 }
