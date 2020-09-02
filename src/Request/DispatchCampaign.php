@@ -39,7 +39,7 @@ class DispatchCampaign
      * @throws InvalidRouteException
      * @throws ReflectionException
      */
-    public function sendDispatchRequest(string $campaign_id, string $user_name, string $user_email): ResponseInterface
+    public function sendDispatchRequest(string $campaign_id, string $user_name, string $user_email): bool
     {
         $url = $this->getDispatchUrl($campaign_id);
         $data = $this->getJsonToSend($user_name, $user_email);

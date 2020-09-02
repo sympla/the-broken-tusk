@@ -1,6 +1,6 @@
 <?php
 
-namespace Track\Configuration;
+namespace Tracksale\Configuration;
 
 class Http
 {

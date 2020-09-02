@@ -33,9 +33,8 @@ class BuildUrl
      */
     private static function routeExists(string $route): bool
     {
-        $reflection = new \ReflectionClass(Routes::class);
-        foreach ($reflection->getConstants() as $constant) {
-            if ($route == $constant) {
+        foreach (Routes::NAME as $track_route) {
+            if ($route == $track_route) {
                 return true;
             }
         }
