@@ -39,10 +39,10 @@ class DispatchCampaign
         $response = $client->request('POST', $url, ['body' => $data]);
         
         if ($response->getStatusCode() != static::TRACKSALE_SUCESS) {
-            throw new \Exception('error to send to tracksale');
+            throw new \Exception('Error to send campaign in Tracksale: ' . $response->getBody());
         }
 
-        return $response; 
+        return true; 
     }
 
     /**
