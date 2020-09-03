@@ -67,6 +67,16 @@ class DispatchCampaign
     }
 
     /**
+     * Stance of BuildUrl
+     * 
+     * @return BuildUrl
+     */
+    protected function getBuildUrl()
+    {
+        return new BuildUrl();
+    }
+
+    /**
      * Generate complete url to send in request
      * 
      * @param string $campaign_id
@@ -77,9 +87,8 @@ class DispatchCampaign
      */
     protected function getDispatchUrl(string $campaign_id): string
     {
-        return BuildUrl::getUrlByRoute(Http::ROUTES['DISPATCH']) . '/' . $campaign_id . '/dispatch';
+        return self::getBuildUrl()->getUrlByRoute(Http::ROUTES['DISPATCH']) . '/' . $campaign_id . '/dispatch';
     }
-    
     
     /**
      * Return instance of Guzzle
