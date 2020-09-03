@@ -87,7 +87,7 @@ class DispatchCampaign
      */
     protected function getDispatchUrl(string $campaign_id): string
     {
-        return self::getBuildUrl()->getUrlByRoute(Http::ROUTES['DISPATCH']) . '/' . $campaign_id . '/dispatch';
+        return $this->getBuildUrl()->getUrlByRoute(Http::ROUTES['DISPATCH']) . '/' . $campaign_id . '/dispatch';
     }
     
     /**
