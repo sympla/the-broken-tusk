@@ -16,9 +16,9 @@ class BuildUrl
      * @throws InvalidRouteException
      * @throws ReflectionException
      */
-    public static function getUrlByRoute(string $route): string
+    public function getUrlByRoute(string $route): string
     {
-        if (! static::routeExists($route)) {
+        if (!self::routeExists($route)) {
             throw new InvalidRouteException("Invalid route: " . $route);
         }
         return sprintf("%s/%s", trim(Http::URLS['BASE_URL'], "/"), trim($route, "/"));
@@ -31,9 +31,9 @@ class BuildUrl
      * @throws ReflectionException
      * @throws ReflectionException
      */
-    private static function routeExists(string $route): bool
+    protected function routeExists(string $route): bool
     {
-        foreach (Routes::NAME as $track_route) {
+        foreach (Http::ROUTES as $track_route) {
             if ($route == $track_route) {
                 return true;
             }

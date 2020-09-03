@@ -4,12 +4,11 @@ namespace Tracksale\Request;
 
 use GuzzleHttp\Client;
 use Psr\Http\Message\ResponseInterface;
-use Tracksale\Configuration\Routes;
+use Tracksale\Configuration\Http;
 use Tracksale\Exception\IncorrectTypeException;
 use Tracksale\Exception\InvalidRouteException;
 use Tracksale\Exception\RequestFailed;
 use Tracksale\Helpers\BuildUrl;
-use ReflectionException;
 
 class DispatchCampaign
 {
@@ -46,9 +45,9 @@ class DispatchCampaign
 
         $client = $this->getGuzzleInstance();
         $response = $client->request('POST', $url, ['body' => $data]);
-        
-        if ($response->getStatusCode() != static::TRACKSALE_SUCESS) {
-            throw new RequestFailed('Error to send campaign in Tracksale', $response->getStatusCode(), $response->getBody());
+
+        if ($response->getStatusCode() != self::TRACKSALE_SUCESS) {
+            throw new RequestFailed('Error to send campaign in Tracksale', $response->getStatusCode(), json_decode($response->getBody()));
         }
 
         return true; 
@@ -78,7 +77,7 @@ class DispatchCampaign
      */
     protected function getDispatchUrl(string $campaign_id): string
     {
-        return BuildUrl::getUrlByRoute(Routes::NAME['DISPATCH']) . '/' . $campaign_id . '/dispatch';
+        return BuildUrl::getUrlByRoute(Http::ROUTES['DISPATCH']) . '/' . $campaign_id . '/dispatch';
     }
     
     
