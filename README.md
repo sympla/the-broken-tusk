@@ -22,5 +22,9 @@ $sendCampaign = new DispatchCampaign('TRACKSALE_TOKEN');
 
 $response = $sendCampaign->sendDispatchRequest($campaign_id, $user_name, $email);
         
+```
 
+### Did You Know?
+
+The Broken Tusk is the one of several inns of Orgrimmar, this one located within the Valley of Strength near the Orgrimmar General Store and Auction House. Its most famous resident is Gamon, long beset by members of his own faction due to his formerly low level.
 
